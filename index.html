@@ -6,7 +6,7 @@
     <title>Jeremiah 33:3 - Dominion City Church</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@400;600;700&family=Dancing+Script:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@400;600;700&family=Dancing+Script:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
         
         :root {
             --primary-color: #123456;
@@ -110,6 +110,23 @@
             border-right: 2px solid var(--accent-color);
         }
 
+        .logo-container {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 50px;
+            height: 50px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in-out 2.5s forwards;
+        }
+
+        .logo {
+            width: 100%;
+            height: 100%;
+            fill: var(--primary-color);
+            opacity: 0.8;
+        }
+
         .church-name-container {
             text-align: center;
             margin-bottom: 30px;
@@ -190,6 +207,7 @@
             position: relative;
             margin-bottom: 30px;
             min-height: 200px;
+            text-align: center;
         }
 
         .verse-text span {
@@ -344,6 +362,8 @@
             background-repeat: no-repeat;
             transform: rotate(135deg) scale(0);
             opacity: 0;
+            transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2));
         }
 
         .flourish {
@@ -392,12 +412,33 @@
         }
 
         .loading-spinner {
-            width: 50px;
-            height: 50px;
+            position: relative;
+            width: 60px;
+            height: 60px;
+        }
+
+        .loading-spinner::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
             border: 3px solid rgba(0, 0, 0, 0.1);
             border-radius: 50%;
             border-top-color: var(--accent-color);
             animation: spin 1s linear infinite;
+        }
+
+        .loading-spinner::before {
+            content: '';
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            top: 15%;
+            left: 15%;
+            border: 3px solid rgba(0, 0, 0, 0.05);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1.5s linear infinite reverse;
         }
 
         @keyframes spin {
@@ -410,6 +451,63 @@
             to {
                 opacity: 1;
             }
+        }
+
+        .ink-trail {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 5;
+            transition: transform 0.3s, opacity 0.6s;
+        }
+
+        .handwriting-style {
+            font-family: 'Dancing Script', cursive;
+            line-height: 1.8;
+        }
+
+        .parchment-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.1'/%3E%3C/svg%3E");
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .scroll-decoration {
+            position: absolute;
+            top: 0;
+            width: 40px;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='100' viewBox='0 0 40 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0 Q20,10 40,0 L40,100 Q20,90 0,100 Z' fill='%23f2efe6'/%3E%3C/svg%3E");
+            background-repeat: repeat-y;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .scroll-left {
+            left: 0;
+            transform: scaleX(-1);
+        }
+
+        .scroll-right {
+            right: 0;
+        }
+
+        .replay-btn {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out 13s forwards;
         }
 
         @media (max-width: 768px) {
@@ -433,6 +531,38 @@
             .signature {
                 font-size: 20px;
             }
+
+            .logo-container {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .verse-text {
+                font-size: 20px;
+            }
+
+            .verse-reference {
+                font-size: 18px;
+            }
+
+            .signature {
+                font-size: 18px;
+            }
+
+            .loading-spinner {
+                width: 40px;
+                height: 40px;
+            }
+
+            .scroll-decoration {
+                width: 20px;
+            }
         }
     </style>
 </head>
@@ -447,6 +577,16 @@
         <div class="decorative-corner corner-tr"></div>
         <div class="decorative-corner corner-bl"></div>
         <div class="decorative-corner corner-br"></div>
+        <div class="parchment-overlay"></div>
+        <div class="scroll-decoration scroll-left"></div>
+        <div class="scroll-decoration scroll-right"></div>
+        
+        <div class="logo-container">
+            <svg class="logo" viewBox="0 0 100 100">
+                <path d="M50,10 C25,10 10,25 10,50 C10,75 25,90 50,90 C75,90 90,75 90,50 C90,25 75,10 50,10 Z M50,20 C70,20 80,35 80,50 C80,65 70,80 50,80 C30,80 20,65 20,50 C20,35 30,20 50,20 Z"></path>
+                <path d="M40,40 L40,60 L60,50 Z"></path>
+            </svg>
+        </div>
         
         <div class="music-controls">
             <button class="btn" id="play-pause-btn">
@@ -459,6 +599,10 @@
                 <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.1" value="0.7">
             </div>
         </div>
+
+        <button class="btn replay-btn" id="replay-btn">
+            <i class="fas fa-redo-alt"></i>
+        </button>
 
         <div class="ink-splatter ink1"></div>
         <div class="ink-splatter ink2"></div>
@@ -488,17 +632,25 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Setup loading screen
             const loadingOverlay = document.getElementById('loading-overlay');
+            const container = document.querySelector('.container');
             
-            // Load audio elements
-            const backgroundMusic = new Audio('music.mp3');
+            // Preload audio files with dummy base64 data (replace with actual audio files in production)
+            function createAudio(volume = 0.7) {
+                const audio = new Audio();
+                audio.volume = volume;
+                return audio;
+            }
+
+            // Create audio objects
+            const backgroundMusic = createAudio(0.7);
             backgroundMusic.loop = true;
-            backgroundMusic.volume = 0.7;
+            backgroundMusic.src = "https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"; // Dummy path, would be replaced with real music
             
-            const writingSound = new Audio('data:audio/mp3;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWJsZSB2ZXJzZSBoYW5kd3JpdGluZyBzb3VuZCBlZmZlY3QAAFRDTwAAAAUAAABUUEUxAAAADQAAAFRhbGsgUEUAAFRJVDIAAAANAAAAU291bmQgRWZmZWN0AAAAAA==');
-            writingSound.volume = 0.2;
+            const writingSound = createAudio(0.2);
+            writingSound.src = "https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"; // Dummy path
             
-            const paperRustleSound = new Audio('data:audio/mp3;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWJsZSB2ZXJzZSBoYW5kd3JpdGluZyBzb3VuZCBlZmZlY3QAAFRDTwAAAAUAAABUUEUxAAAADQAAAFRhbGsgUEUAAFRJVDIAAAANAAAAU291bmQgRWZmZWN0AAAAAA==');
-            paperRustleSound.volume = 0.1;
+            const paperRustleSound = createAudio(0.1);
+            paperRustleSound.src = "https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"; // Dummy path
             
             // Setup music controls
             const playPauseBtn = document.getElementById('play-pause-btn');
@@ -506,6 +658,7 @@
             const volumeBtn = document.getElementById('volume-btn');
             const volumeIcon = document.getElementById('volume-icon');
             const volumeSlider = document.getElementById('volume-slider');
+            const replayBtn = document.getElementById('replay-btn');
             
             let isPlaying = false;
             let isMuted = false;
@@ -513,7 +666,7 @@
             
             playPauseBtn.addEventListener('click', function() {
                 if (!isPlaying) {
-                    backgroundMusic.play();
+                    backgroundMusic.play().catch(e => console.log('Play blocked by browser:', e));
                     playIcon.className = 'fas fa-pause';
                     isPlaying = true;
                 } else {
@@ -527,11 +680,15 @@
                 if (!isMuted) {
                     previousVolume = backgroundMusic.volume;
                     backgroundMusic.volume = 0;
+                    writingSound.volume = 0;
+                    paperRustleSound.volume = 0;
                     volumeSlider.value = 0;
                     volumeIcon.className = 'fas fa-volume-mute';
                     isMuted = true;
                 } else {
                     backgroundMusic.volume = previousVolume;
+                    writingSound.volume = previousVolume * 0.3;
+                    paperRustleSound.volume = previousVolume * 0.15;
                     volumeSlider.value = previousVolume;
                     volumeIcon.className = 'fas fa-volume-up';
                     isMuted = false;
@@ -541,6 +698,8 @@
             volumeSlider.addEventListener('input', function() {
                 const value = this.value;
                 backgroundMusic.volume = value;
+                writingSound.volume = value * 0.3;
+                paperRustleSound.volume = value * 0.15;
                 
                 if (value === 0) {
                     volumeIcon.className = 'fas fa-volume-mute';
@@ -552,6 +711,32 @@
                 }
             });
             
+            // Create Ink Trail effect
+            const createInkTrail = (x, y) => {
+                const trail = document.createElement('div');
+                trail.classList.add('ink-trail');
+                trail.style.left = `${x}px`;
+                trail.style.top = `${y}px`;
+                
+                // Random size and opacity for natural effect
+                const size = 2 + Math.random() * 3;
+                const opacity = 0.2 + Math.random() * 0.4;
+                
+                trail.style.width = `${size}px`;
+                trail.style.height = `${size}px`;
+                trail.style.opacity = opacity;
+                
+                document.body.appendChild(trail);
+                
+                // Animate and remove
+                setTimeout(() => {
+                    trail.style.opacity = '0';
+                    setTimeout(() => {
+                        document.body.removeChild(trail);
+                    }, 600);
+                }, 100);
+                };
+            
             // Set up pen cursor animation
             const penCursor = document.getElementById('pen-cursor');
             let activeLetter = null;
@@ -559,6 +744,11 @@
             const animatePen = (letter, x, y) => {
                 penCursor.style.opacity = '1';
                 penCursor.style.transform = `translate(${x}px, ${y}px) rotate(135deg) scale(1)`;
+                
+                // Add ink trail effect occasionally
+                if (Math.random() > 0.7) {
+                    createInkTrail(x, y);
+                }
             };
             
             const hidePen = () => {
@@ -566,114 +756,257 @@
                 penCursor.style.transform = 'translate(0, 0) rotate(135deg) scale(0)';
             };
             
-            // Verse animation
-            const verseText = 'Call to Me, and I will answer you, and tell you great and mighty things which you do not know.';
-            const verseElement = document.getElementById('verse-text');
+            // Verse animation function
+            const animateVerse = () => {
+                // Clear previous content
+                const verseElement = document.getElementById('verse-text');
+                verseElement.innerHTML = '';
+                
+                // Verse text with corrected wording
+                const verseText = 'Call to Me, and I will answer you, and show you great and mighty things, which you do not know.';
+                
+                // Add handwriting style class
+                verseElement.classList.add('handwriting-style');
+                
+                // Split the verse into words
+                const words = verseText.split(' ');
+                let delay = 3; // Starting delay in seconds
+                let totalDuration = delay;
+                let currentCharIndex = 0;
+                
+                // Process each word
+                words.forEach((word, wordIndex) => {
+                    // Create a container for each word
+                    const wordContainer = document.createElement('span');
+                    wordContainer.style.position = 'relative';
+                    wordContainer.style.marginRight = '10px';
+                    wordContainer.style.display = 'inline-block';
+                    wordContainer.style.perspective = '1000px';
+                    
+                    // Process each character in the word
+                    for (let charIndex = 0; charIndex < word.length; charIndex++) {
+                        const char = word[charIndex];
+                        const charSpan = document.createElement('span');
+                        charSpan.textContent = char;
+                        charSpan.style.position = 'relative';
+                        
+                        // Emphasize special words or characters
+                        if (
+                            (word === 'Call' && charIndex < 4) || 
+                            (word === 'Me,') || 
+                            (word === 'answer') || 
+                            (word === 'show') || 
+                            (word === 'great') || 
+                            (word === 'mighty') || 
+                            word === 'not'
+                        ) {
+                            charSpan.classList.add('emphasis');
+                        }
+                        
+                        // Set animation for each character
+                        const charDelay = delay + (charIndex * 0.1);
+                        charSpan.style.animation = `fadeIn 0.3s ease-in-out ${charDelay}s forwards`;
+                        charSpan.style.opacity = '0';
+                        
+                        // Add animation event for pen cursor
+                        setTimeout(() => {
+                            if (!document.contains(charSpan)) return;
+                            
+                            const rect = charSpan.getBoundingClientRect();
+                            const containerRect = container.getBoundingClientRect();
+                            
+                            // Calculate position relative to container
+                            const x = rect.left - containerRect.left + (rect.width / 2) - 5;
+                            const y = rect.top - containerRect.top - 5;
+                            
+                            animatePen(charSpan, x, y);
+                            
+                            // Play writing sound with slight variation for natural effect
+                            if (currentCharIndex % 3 === 0) {
+                                writingSound.currentTime = 0;
+                                writingSound.playbackRate = 0.9 + Math.random() * 0.2;
+                                writingSound.play().catch(e => {}); // Ignore errors if sound cannot play
+                            }
+                            
+                            activeLetter = charSpan;
+                            currentCharIndex++;
+                        }, charDelay * 1000);
+                        
+                        wordContainer.appendChild(charSpan);
+                    }
+                    
+                    // Add space after each word (except last word)
+                    if (wordIndex < words.length - 1) {
+                        const space = document.createElement('span');
+                        space.textContent = ' ';
+                        space.style.marginRight = '4px';
+                        wordContainer.appendChild(space);
+                    }
+                    
+                    verseElement.appendChild(wordContainer);
+                    
+                    // Update delay for next word
+                    delay += (word.length * 0.1) + 0.2;
+                    totalDuration = delay;
+                });
+                
+                // Hide pen after animation completes
+                setTimeout(() => {
+                    hidePen();
+                    paperRustleSound.play().catch(e => {}); // Ignore errors if sound cannot play
+                    
+                    // Add final flourish animation
+                    document.querySelector('.flourish').style.opacity = '1';
+                }, totalDuration * 1000 + 500);
+                
+                return totalDuration;
+            };
             
-            // Split the verse into words
-            const words = verseText.split(' ');
-            let delay = 3; // Starting delay in seconds
-            let totalDuration = delay;
-            
-            // Process each word
-            words.forEach((word, wordIndex) => {
-                // Create a container for each word
-                const wordContainer = document.createElement('span');
-                wordContainer.style.position = 'relative';
-                wordContainer.style.marginRight = '10px';
-                wordContainer.style.display = 'inline-block';
+            // Replay button functionality
+            replayBtn.addEventListener('click', function() {
+                // Reset animations
+                const verseElement = document.getElementById('verse-text');
+                verseElement.innerHTML = '';
                 
-                // Process each character in the word
-                for (let charIndex = 0; charIndex < word.length; charIndex++) {
-                    const char = word[charIndex];
-                    const charSpan = document.createElement('span');
-                    charSpan.textContent = char;
-                    charSpan.classList.add('emphasis');
-                    
-                    // Set animation for each character
-                    const charDelay = delay + (charIndex * 0.1);
-                    charSpan.style.animation = `fadeIn 0.3s ease-in-out ${charDelay}s forwards`;
-                    charSpan.style.opacity = '0';
-                    
-                    // Add animation event for pen cursor
-                    setTimeout(() => {
-                        const rect = charSpan.getBoundingClientRect();
-                        const containerRect = document.querySelector('.container').getBoundingClientRect();
-                        
-                        // Calculate position relative to container
-                        const x = rect.left - containerRect.left + (rect.width / 2) - 5;
-                        const y = rect.top - containerRect.top - 5;
-                        
-                        animatePen(charSpan, x, y);
-                        writingSound.currentTime = 0;
-                        writingSound.play();
-                        
-                        activeLetter = charSpan;
-                    }, charDelay * 1000);
-                    
-                    wordContainer.appendChild(charSpan);
-                }
+                document.querySelector('.flourish').style.opacity = '0';
                 
-                // Add space after each word (except last word)
-                if (wordIndex < words.length - 1) {
-                    const space = document.createElement('span');
-                    space.textContent = ' ';
-                    space.style.marginRight = '4px';
-                    wordContainer.appendChild(space);
-                }
+                // Start animation again
+                const totalDuration = animateVerse();
                 
-                verseElement.appendChild(wordContainer);
+                // Play rustle sound
+                paperRustleSound.currentTime = 0;
+                paperRustleSound.play().catch(e => {});
                 
-                // Update delay for next word
-                delay += (word.length * 0.1) + 0.2;
-                totalDuration = delay;
+                // Scroll to container top if needed
+                container.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
             
-            // Hide pen after animation completes
-            setTimeout(() => {
-                hidePen();
-                paperRustleSound.play();
-            }, totalDuration * 1000 + 500);
+            // Initialize animations
+            const initializeAnimation = () => {
+                // Start the verse animation
+                animateVerse();
+                
+                // Auto-play audio attempt with user interaction awareness
+                container.addEventListener('click', function() {
+                    if (!isPlaying) {
+                        backgroundMusic.play()
+                            .then(() => {
+                                playIcon.className = 'fas fa-pause';
+                                isPlaying = true;
+                            })
+                            .catch(error => {
+                                console.log("Auto-play prevented: ", error);
+                            });
+                    }
+                }, { once: true });
+            };
             
-            // Background music auto-play attempt (might be blocked by browser)
-            document.addEventListener('click', function() {
-                if (!isPlaying) {
-                    backgroundMusic.play()
-                        .then(() => {
-                            playIcon.className = 'fas fa-pause';
-                            isPlaying = true;
-                        })
-                        .catch(error => {
-                            console.log("Auto-play prevented: ", error);
-                        });
-                }
-            }, { once: true });
+            // Add touch support for mobile devices
+            const hammer = new Hammer(container);
+            hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+            
+            hammer.on('tap', function(e) {
+                const containerRect = container.getBoundingClientRect();
+                const x = e.center.x - containerRect.left;
+                const y = e.center.y - containerRect.top;
+                
+                // Create ink splatter on tap
+                createInkTrail(x, y);
+            });
             
             // Handle loading completion
             window.addEventListener('load', function() {
-                // Preload the music
-                backgroundMusic.preload = 'auto';
-                backgroundMusic.load();
-                
-                // Hide loading overlay
-                setTimeout(() => {
-                    loadingOverlay.style.opacity = '0';
+                // Load the font first to prevent FOIT (Flash of Invisible Text)
+                document.fonts.ready.then(() => {
+                    // Hide loading overlay with a delay for smooth transition
                     setTimeout(() => {
-                        loadingOverlay.style.display = 'none';
-                    }, 1000);
-                }, 500);
+                        loadingOverlay.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingOverlay.style.display = 'none';
+                            initializeAnimation();
+                        }, 1000);
+                    }, 500);
+                });
             });
             
             // Responsive adjustments
             const adjustForScreenSize = () => {
-                const container = document.querySelector('.container');
                 if (window.innerWidth <= 500) {
                     container.style.padding = '30px 20px';
+                }
+                
+                // Adjust font size based on container width
+                const verseElement = document.getElementById('verse-text');
+                const containerWidth = container.offsetWidth;
+                
+                if (containerWidth < 400) {
+                    verseElement.style.fontSize = '18px';
+                } else if (containerWidth < 600) {
+                    verseElement.style.fontSize = '22px';
+                } else {
+                    verseElement.style.fontSize = '30px';
                 }
             };
             
             window.addEventListener('resize', adjustForScreenSize);
+            
+            // Fall back plan if Hammer.js is not available
+            if (typeof Hammer === 'undefined') {
+                console.log('Hammer.js not available, using fallback touch handling');
+                
+                container.addEventListener('touchstart', function(e) {
+                    const touch = e.touches[0];
+                    const containerRect = container.getBoundingClientRect();
+                    const x = touch.clientX - containerRect.left;
+                    const y = touch.clientY - containerRect.top;
+                    
+                    createInkTrail(x, y);
+                });
+                
+                // Initial setup still needs to happen
+                adjustForScreenSize();
+                
+                // Hide loading overlay if it's taking too long
+                setTimeout(() => {
+                    if (loadingOverlay.style.display !== 'none') {
+                        loadingOverlay.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingOverlay.style.display = 'none';
+                            initializeAnimation();
+                        }, 1000);
+                    }
+                }, 3000);
+            }
+            
+            // Run initial setup
             adjustForScreenSize();
+            
+            // Polyfill for browsers that don't support IntersectionObserver
+            if (!('IntersectionObserver' in window)) {
+                // Just initialize animation after a delay
+                setTimeout(() => {
+                    loadingOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                        initializeAnimation();
+                    }, 1000);
+                }, 1500);
+            } else {
+                // Use IntersectionObserver to start animation when container is visible
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Only initialize if loading is complete
+                            if (loadingOverlay.style.display === 'none') {
+                                initializeAnimation();
+                            }
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.3 });
+                
+                observer.observe(container);
+            }
         });
     </script>
 </body>
